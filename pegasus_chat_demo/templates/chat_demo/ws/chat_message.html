@@ -1,0 +1,8 @@
+<div id="message-list" hx-swap-oob="beforeend">
+  <div class="mb-4">
+    <div class="mt-1 rounded-lg px-4 py-2 {% if is_system %}bg-gray-200 text-gray-800{% else %}bg-blue-600 text-white text-right{% endif %}"
+         {% if message_id %}id="{{ message_id }}"{% endif %}>
+      {{ message_text }}
+    </div>
+  </div>
+</div>

@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+
+[project]
+name = "pegasus_chat_demo"
+version = "0.1.0"
+description = "A streaming ChatGPT clone in Django and Channels."
+authors = [{name = "Cory Zue", email = "cory@saaspegasus.com"}]
+readme = "README.md"
+classifiers = [
+    "Environment :: Web Environment",
+    "Framework :: Django",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+dependencies = [
+  "django>=4.2",
+  "channels>=4.0",
+  "openai>=1.10.0",
+]

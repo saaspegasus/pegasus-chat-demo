@@ -19,7 +19,7 @@ class ChatConsumer(WebsocketConsumer):
         # do something with the user's message
         # show user's message
         user_message_html = render_to_string(
-            "chat_demo/ws/chat_message.html",
+            "pegasus_chat_demo/ws/chat_message.html",
             {
                 "message_text": message_text,
                 "is_system": False,
@@ -34,7 +34,7 @@ class ChatConsumer(WebsocketConsumer):
         )
         message_id = f"message-{uuid.uuid4().hex}"
         system_message_html = render_to_string(
-            "chat_demo/ws/chat_message.html",
+            "pegasus_chat_demo/ws/chat_message.html",
             {"message_text": "", "is_system": True, "message_id": message_id},
         )
         self.send(text_data=system_message_html)

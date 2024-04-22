@@ -47,7 +47,8 @@ class ChatConsumer(WebsocketConsumer):
         )
         chunks = []
         for chunk in openai_response:
-            message_chunk = (chunk.choices[0].delta.content or "").replace("\n", "<br>")
-            self.send(text_data=f'<div id="{message_id}" hx-swap-oob="beforeend">{message_chunk}</div>')
+            message_chunk = (chunk.choices[0].delta.content or "")
+            formatted_chunk = message_chunk.replace("\n", "<br>")
+            self.send(text_data=f'<div id="{message_id}" hx-swap-oob="beforeend">{formatted_chunk}</div>')
             chunks.append(message_chunk)
         self.messages.append({"role": "system", "content": "".join(chunks)})

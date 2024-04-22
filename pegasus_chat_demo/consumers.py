@@ -1,18 +1,18 @@
 import json
 import uuid
 
-from channels.generic.websocket import WebsocketConsumer
+from channels.generic.websocket import AsyncWebsocketConsumer
 from django.conf import settings
 from django.template.loader import render_to_string
-from openai import OpenAI
+from openai import OpenAI, AsyncOpenAI
 
 
-class ChatConsumer(WebsocketConsumer):
-    def connect(self):
+class ChatConsumer(AsyncWebsocketConsumer):
+    async def connect(self):
         self.messages = []
-        super().connect()
+        await super().connect()
 
-    def receive(self, text_data):
+    async def receive(self, text_data):
         # our webhook handling code goes here
         text_data_json = json.loads(text_data)
         message_text = text_data_json["message"]
@@ -25,7 +25,7 @@ class ChatConsumer(WebsocketConsumer):
                 "is_system": False,
             },
         )
-        self.send(text_data=user_message_html)
+        await self.send(text_data=user_message_html)
         self.messages.append(
             {
                 "role": "user",
@@ -37,18 +37,18 @@ class ChatConsumer(WebsocketConsumer):
             "pegasus_chat_demo/ws/chat_message.html",
             {"message_text": "", "is_system": True, "message_id": message_id},
         )
-        self.send(text_data=system_message_html)
+        await self.send(text_data=system_message_html)
 
-        client = OpenAI(api_key=settings.OPENAI_API_KEY)
-        openai_response = client.chat.completions.create(
+        client = AsyncOpenAI(api_key=settings.OPENAI_API_KEY)
+        openai_response = await client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=self.messages,
             stream=True,
         )
         chunks = []
-        for chunk in openai_response:
+        async for chunk in openai_response:
             message_chunk = (chunk.choices[0].delta.content or "")
             formatted_chunk = message_chunk.replace("\n", "<br>")
-            self.send(text_data=f'<div id="{message_id}" hx-swap-oob="beforeend">{formatted_chunk}</div>')
+            await self.send(text_data=f'<div id="{message_id}" hx-swap-oob="beforeend">{formatted_chunk}</div>')
             chunks.append(message_chunk)
         self.messages.append({"role": "system", "content": "".join(chunks)})

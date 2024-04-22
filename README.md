@@ -10,6 +10,10 @@ This application is based on this companion article:
 **If you'd like a version that also includes user-based sessions, asynchronous database access, chat history,
 and loads more functionality---check out [SaaS Pegasus: the Django boilerplate for AI apps](https://www.saaspegasus.com/).**
 
+## Demo
+
+[pegasus-chat-demo.webm](https://github.com/saaspegasus/pegasus-chat-demo/assets/66555/341a14d9-1860-4369-a1c6-1deea7a7b842)
+
 ## Installation
 
 First install this library:
